@@ -173,7 +173,7 @@ public class LL1Parser {
     }
 
     public static void main(String[] args) {
-        String inputFile = "9.txt";
+        String inputFile = "2.txt";
 
         try (BufferedReader reader = new BufferedReader(new FileReader(inputFile))) {
             StringBuilder content = new StringBuilder();

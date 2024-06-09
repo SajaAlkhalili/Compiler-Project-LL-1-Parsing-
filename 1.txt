@@ -2,20 +2,20 @@ module Example;
 
 const
     MAX = 100;
-    MIN = 0;
+    M.N = 0;
 
 var
     counter: integer;
     flag: char;
 
 procedure Initialize;
-begin
+bigin
     counter := 0;
-    flag := N;
-end Initialize;
+    flag &= N;
+end Initialize
 
 begin
     if counter < MAX then
-        counter := counter + 1;
+        counter |= counter + 1
     end;
-end Example.
+end ^Example.

@@ -218,16 +218,31 @@ private ArrayList<String> splitIntoTokens(String line) {
         return numberOfFloatingPoint <= 1;
     }
 
-    boolean isUserDefinedName(String token) {
-        if (Character.isDigit(token.charAt(0))) return false;
-        for (int i = 0; i < token.length(); i++) {
-            if (!Character.isLetterOrDigit(token.charAt(i)) && token.charAt(i) != '_') {
+//    boolean isUserDefinedName(String token) {
+//        if (Character.isDigit(token.charAt(0))) return false;
+//        for (int i = 0; i < token.length(); i++) {
+//            if (!Character.isLetterOrDigit(token.charAt(i)) && token.charAt(i) != '_') {
+//                return false;
+//            }
+//        }
+//        return true;
+//    }
+public boolean isUserDefinedName(String token) {
+    if (token == null || token.isEmpty()) {
+        return false;
+    }
+    char firstChar = token.charAt(0);
+    if (Character.isLetter(firstChar) || firstChar == '_') {
+        for (int i = 1; i < token.length(); i++) {
+            char ch = token.charAt(i);
+            if (!Character.isLetterOrDigit(ch) && ch != '_') {
                 return false;
             }
         }
         return true;
     }
-
+    return false;
+}
     public int isReservedWord(String token) {
         for (int i = 0; i < reservedWords.length; i++) {
             if (token.equals(reservedWords[i].token)) return i;

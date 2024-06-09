@@ -1,24 +1,24 @@
-module * Complex12Module;
+module ComplexModule;
 
 const
-    4PI = 3.14;
+    PI = 3.14;
 
 var
-    radius:= real;
+    radius: real;
     area: real;
 
-procedure CalculateArea
+procedure CalculateArea;
 begin
-    3area := PI * radius % radius;
+    area := PI * radius * radius;
 end CalculateArea;
 
-procede InputRadius; $
+procedure InputRadius;
 begin
     readreal(radius);
 end InputRadius;
 
 begin
-    call InputRadius
-    call CalculateArea.
+    call InputRadius;
+    call CalculateArea;
     writereal(area);
 end ComplexModule.
