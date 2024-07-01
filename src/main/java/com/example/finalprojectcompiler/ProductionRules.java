@@ -1,20 +1,20 @@
 package com.example.finalprojectcompiler;
 
 public class ProductionRules {
-    public String leftSide = "";
-    public String rightSide = "";
-    public ProductionRules(String left, String right){
-        this.leftSide = left;
-        this.rightSide = right;
+    public String LeftSide = "";// String for leftsid
+    public String RightSide = "";//String for rightside
+    public ProductionRules(String left, String right){//constructor  get letside and rightside
+        this.LeftSide = left;
+        this.RightSide = right;
     }
 
 
     public String getLeftSide(){
-        return this.leftSide;
-    }
+        return this.LeftSide;
+    }// method to get leftside
 
     public String getRightSide(){
-        return this.rightSide;
-    }
+        return this.RightSide;
+    }// method to get rightside
 }
 

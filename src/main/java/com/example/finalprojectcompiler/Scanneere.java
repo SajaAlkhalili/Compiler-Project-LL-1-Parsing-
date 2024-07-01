@@ -1,17 +1,15 @@
-package com.example.finalprojectcompiler;//import java.io.File;
+package com.example.finalprojectcompiler;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
-public class CompilerScanner {
+public class Scanneere {
 
-    private String[] symbols = {";", "=", "<", ">", "+", "/", "*", "-", ":", ",", "(", ")",
+    private String[] symbols = {//array of symbols
+            ";", "=", "<", ">", "+", "/", "*", "-", ":", ",", "(", ")",
             ":=", "<=", ">=", "|="};
 
-    private Tokens[] specialSympols = {
+    private Tokens[] specialSympols = {//array of specialSympols
             new Tokens(";", 100),
             new Tokens("=", 101),
             new Tokens("(", 103),
@@ -30,9 +28,9 @@ public class CompilerScanner {
             new Tokens(",", 117)
     };
 
-    private ArrayList<Tokens> listOfTokens;
+    private ArrayList<Tokens> listOfTokens;//arraylist of listOfTokens
 
-    private Tokens[] reservedWords = {
+    private Tokens[] reservedWords = {//array of reservedWords
             new Tokens("module", 1),
             new Tokens("begin", 2),
             new Tokens("end", 3),
@@ -62,24 +60,25 @@ public class CompilerScanner {
             new Tokens("exit", 28),
             new Tokens("call", 29)};
 
-    private String sourceCode;
+    private String sourceCode;// Private  to store the source code
 
-    public CompilerScanner(String fileContents) {
+    public Scanneere(String fileContents) { // constructor takes the source code
         this.sourceCode = fileContents;
         this.listOfTokens = new ArrayList<>();
     }
 
-    public CompilerScanner() {
+    public Scanneere() {
         this.listOfTokens = new ArrayList<>();
-    }
+    }// default constructor
 
 
-public ArrayList<Tokens> getTokens(){
+public ArrayList<Tokens> getTokens(){  //method  get the list of tokens from the source code
     int tokenLine = 1;
     StringTokenizer tokenizer = new StringTokenizer(sourceCode,"\n");
 
     while(tokenizer.hasMoreTokens()){
         String currentLine = tokenizer.nextToken().trim();
+
         if(!currentLine.equals("")){
             ArrayList<String> list = this.splitIntoTokens(currentLine);
             for(int i=0 ; i<list.size(); i++){
@@ -87,7 +86,7 @@ public ArrayList<Tokens> getTokens(){
                 if (token.length() == 1) {  // If the token is a single character
                     this.selectTokenType(token, tokenLine);
                 } else {
-                    this.selectTokenTypeWithPeriod(token, tokenLine); // Handle periods within tokens
+                    this.Selecttokentypeandterm(token, tokenLine); // Handle periods within tokens
                 }
             }
         }
@@ -96,29 +95,29 @@ public ArrayList<Tokens> getTokens(){
     return listOfTokens;
 }
 
-    private void selectTokenTypeWithPeriod(String token, int line) {
+    private void Selecttokentypeandterm(String token, int line) {//method to select token type and handle terms
         if (token == null) {
             return;  // Handle null token if necessary
         }
 
-        // If the token contains a period, handle it as part of a real number
+        // if the token contains a term, handle it as part of a real number
         if (token.contains(".")) {
-            // Split the token by period
+            // Split the token by terms
             String[] parts = token.split("\\.");
 
-            // Check if both parts are numeric
+            // check if both parts are numeric
             if (parts.length == 2 && isInteger(parts[0]) && isInteger(parts[1])) {
                 Tokens tmp = new Tokens(token, 204); // Token is a real number
                 tmp.setLineNumber(line);
                 listOfTokens.add(tmp);
             } else {
-                // If not numeric, treat each part as separate tokens
+                // if not numeric, treat each part as separate tokens
                 for (String part : parts) {
                     selectTokenType(part, line);
                 }
             }
         } else {
-            // If no period, treat the token normally
+            // if no term, treat the token normally
             selectTokenType(token, line);
         }
     }
@@ -129,7 +128,7 @@ private ArrayList<String> splitIntoTokens(String line) {
     while (tokenizer.hasMoreTokens()) {
         String nextToken = tokenizer.nextToken();
         if (nextToken.endsWith(".")) {
-            // Remove the period and add the name and the period as separate tokens
+            // remove the term and add the name and the term as separate tokens
             String name = nextToken.substring(0, nextToken.length() - 1);
             tokens.add(name);
             tokens.add(".");
@@ -163,9 +162,9 @@ private ArrayList<String> splitIntoTokens(String line) {
     return tokens;
 }
 
-    private void selectTokenType(String token, int line) {
+    private void selectTokenType(String token, int line) { //method to select type of token and add  to the list
         if (token == null) {
-            return;  // Handle null token if necessary
+            return;  // handle null token if necessary
         }
 
         int i;
@@ -196,14 +195,14 @@ private ArrayList<String> splitIntoTokens(String line) {
         }
     }
 
-    private boolean isInteger(String token) {
+    private boolean isInteger(String token) { //method to check if a token is  integer
         for (int i = 0; i < token.length(); i++) {
             if (!Character.isDigit(token.charAt(i))) return false;
         }
         return true;
     }
 
-    private boolean isReal(String token) {
+    private boolean isReal(String token) { // method to check if a token is real
         for (int i = 1; i < token.length(); i++) {
             if (!Character.isDigit(token.charAt(i)) && token.charAt(i) != '.') return false;
         }
@@ -218,16 +217,8 @@ private ArrayList<String> splitIntoTokens(String line) {
         return numberOfFloatingPoint <= 1;
     }
 
-//    boolean isUserDefinedName(String token) {
-//        if (Character.isDigit(token.charAt(0))) return false;
-//        for (int i = 0; i < token.length(); i++) {
-//            if (!Character.isLetterOrDigit(token.charAt(i)) && token.charAt(i) != '_') {
-//                return false;
-//            }
-//        }
-//        return true;
-//    }
-public boolean isUserDefinedName(String token) {
+
+public boolean isUserDefinedName(String token) {// method to check if a token is UserDefinedName
     if (token == null || token.isEmpty()) {
         return false;
     }
@@ -243,57 +234,57 @@ public boolean isUserDefinedName(String token) {
     }
     return false;
 }
-    public int isReservedWord(String token) {
+    public int isReservedWord(String token) {// method to check if a token is ReservedWord
         for (int i = 0; i < reservedWords.length; i++) {
             if (token.equals(reservedWords[i].token)) return i;
         }
         return -1;
     }
 
-    public boolean isSymbol(String token) {
+    public boolean isSymbol(String token) {// method to check if a token is symbol
         for (String symbol : symbols) {
             if (token.equals(symbol)) return true;
         }
         return false;
     }
 
-    public int isSpecial(String token) {
+    public int isSpecial(String token) {// method to check if a token is special
         for (int i = 0; i < symbols.length; i++) {
             if (token.equals(symbols[i])) return i;
         }
         return -1;
     }
 
-    public static void main(String[] args) {
-        // Provide the path to your source code file
-        String filePath = "9.txt";
-
-        // Read the file contents
-        String fileContents = readFile(filePath);
-
-        // Tokenize the file contents
-        CompilerScanner scanner = new CompilerScanner(fileContents);
-        ArrayList<Tokens> tokens = scanner.getTokens();
-        System.out.println(scanner.getTokens());
-
-        // Display the tokens
-        for (Tokens token : tokens) {
-            System.out.println(token);
-        }
-    }
-
-    private static String readFile(String filePath) {
-        StringBuilder content = new StringBuilder();
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                content.append(line).append("\n");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return content.toString();
-    }
+//    public static void main(String[] args) {
+//        // Provide the path to your source code file
+//        String filePath = "err1.txt";
+//
+//        // Read the file contents
+//        String fileContents = readFile(filePath);
+//
+//        // Tokenize the file contents
+//        CompilerScanner scanner = new CompilerScanner(fileContents);
+//        ArrayList<Tokens> tokens = scanner.getTokens();
+////        System.out.println(scanner.getTokens());
+//
+//        // Display the tokens
+//        for (Tokens token : tokens) {
+//            System.out.println(token);
+//        }
+//    }
+//
+//    private static String readFile(String filePath) {
+//        StringBuilder content = new StringBuilder();
+//        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+//            String line;
+//            while ((line = br.readLine()) != null) {
+//                content.append(line).append("\n");
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        return content.toString();
+//    }
 }
 
 
